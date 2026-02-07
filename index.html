@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лаборатория ИИ и математического моделирования - БГПУ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Добавляем SMTP.js для отправки почты -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #5c6bc0;
+            --light-color: #e8eaf6;
+            --dark-color: #0d1533;
+            --success-color: #2e7d32;
+            --warning-color: #f57c00;
+            --text-color: #333;
+            --text-light: #666;
+            --white: #fff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+	    white-space: nowrap;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero section */
+        .hero {
+            background: linear-gradient(rgba(26, 35, 126, 0.85), rgba(26, 35, 126, 0.9)), url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.95;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #3949ab;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .btn-warning:hover {
+            background-color: #e65100;
+        }
+        
+        /* Main content */
+        main {
+            padding: 4rem 0;
+        }
+        
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* News section */
+        .news-controls, .courses-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .add-news-btn, .add-course-btn {
+            background-color: var(--success-color);
+        }
+        
+        .add-news-btn:hover, .add-course-btn:hover {
+            background-color: #1b5e20;
+        }
+        
+        .news-grid, .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 2rem;
+        }
+        
+        .news-item, .course-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .news-item:hover, .course-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .news-date, .course-date {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 10px 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .news-content, .course-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .news-content h3, .course-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .news-content p, .course-content p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        
+        .news-actions, .course-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .news-actions button, .course-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .read-more-btn {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+        
+        .read-more-btn:hover {
+            color: var(--primary-color);
+        }
+        
+        .edit-news-btn, .edit-course-btn {
+            color: var(--success-color);
+        }
+        
+        .edit-news-btn:hover, .edit-course-btn:hover {
+            color: #1b5e20;
+        }
+        
+        .delete-news-btn, .delete-course-btn {
+            color: #d32f2f;
+        }
+        
+        .delete-news-btn:hover, .delete-course-btn:hover {
+            color: #b71c1c;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+        
+        .pagination-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background-color: var(--primary-color);
+        }
+        
+        .pagination-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .page-info {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            width: 90%;
+            max-width: 700px;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        /* Full news modal */
+        .full-news-content, .full-course-content {
+            padding: 10px 0;
+        }
+        
+        .full-news-content h3, .full-course-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .full-news-date, .full-course-date {
+            background-color: var(--light-color);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .full-news-text, .full-course-text {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            white-space: pre-line;
+        }
+        
+        /* Contacts */
+        .contacts-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .contact-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+        
+        .person-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .person-position {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .person-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 3px;
+        }
+        
+        .person-contact i {
+            color: var(--accent-color);
+            width: 20px;
+        }
+        
+        /* Feedback form */
+        .feedback-form {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .footer-links h4, .footer-social h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h2 {
+                font-size: 2.3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+                display: none;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 25px;
+                right: 20px;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .news-controls, .courses-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .news-grid, .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .contacts-list {
+                padding: 20px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .feedback-form {
+                padding: 20px;
+            }
+            
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>ЛИИММ БГПУ</h1>
+                        <p>Лаборатория искусственного интеллекта и математического моделирования</p>
+                    </div>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul id="navMenu">
+                        <li><a href="#home" class="active">Главная</a></li>
+                        <li><a href="#about">О лаборатории</a></li>
+                        <li><a href="#news">Новости</a></li>
+                        <li><a href="#courses">Курсы</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                        <li><a href="#feedback">Обратная связь</a></li>
+                        <li><a href="#" id="orderLink">Заказ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Лаборатория искусственного интеллекта и математического моделирования</h2>
+            <p>Передовая научно-исследовательская площадка БГПУ, будет создана для разработки инновационных решений в области ИИ, машинного обучения и математического моделирования сложных систем.</p>
+            <a href="#about" class="btn">Узнать больше</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- About Section -->
+        <section id="about">
+            <h2 class="section-title">О лаборатории</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Лаборатория искусственного интеллекта и математического моделирования (ЛИИММ) будет создана в марте 2026 году при БГПУ как центр компетенций в области современных информационных технологий и ИИ, анализа данных и интеллектуальных систем.</p>
+                    <p>Основные направления работы лаборатории включают разработку алгоритмов машинного обучения, создание математических моделей для анализа социально-экономических и образовательных процессов, исследование возможностей нейросетевых технологий в педагогике.</p>
+                    <p>Лаборатория будет оснащена современным вычислительным оборудованием и программным обеспечением для проведения сложных научных экспериментов и реализации инновационных проектов.</p>
+                    <a href="#contacts" class="btn">Связаться с нами</a>
+                </div>
+                <div class="about-image">
+                    <img src="lab.jpg" alt="Лаборатория ИИ" onerror="this.src='https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section id="news">
+            <div class="news-controls">
+                <h2 class="section-title">Новости лаборатории</h2>
+                <button class="btn add-news-btn" id="addNewsBtn">
+                    <i class="fas fa-plus"></i> Добавить новость
+                </button>
+            </div>
+            
+            <div class="news-grid" id="newsGrid">
+                <!-- Новости будут загружаться здесь -->
+            </div>
+            
+            <div class="pagination" id="newsPagination">
+                <button class="pagination-btn" id="newsPrevBtn">Назад</button>
+                <span class="page-info" id="newsPageInfo">Страница 1 из 1</span>
+                <button class="pagination-btn" id="newsNextBtn">Вперед</button>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses">
+            <div class="courses-controls">
+                <h2 class="section-title">Курсы лаборатории</h2>
+                <button class="btn add-course-btn" id="addCourseBtn">
+                    <i class="fas fa-plus"></i> Добавить курс
+                </button>
+            </div>
+            
+            <div class="courses-grid" id="coursesGrid">
+                <!-- Курсы будут загружаться здесь -->
+            </div>
+            
+            <div class="pagination" id="coursesPagination">
+                <button class="pagination-btn" id="coursesPrevBtn">Назад</button>
+                <span class="page-info" id="coursesPageInfo">Страница 1 из 1</span>
+                <button class="pagination-btn" id="coursesNextBtn">Вперед</button>
+            </div>
+        </section>
+
+        <!-- Contacts Section -->
+        <section id="contacts">
+            <h2 class="section-title">Контакты</h2>
+            <div class="contacts-list">
+                <div class="contact-item">
+                    <div class="person-name">Абзалимов Рамиль Рафикович</div>
+                    <div class="person-position">к.ф.-м.н, доцент, заведующий лабораторией ИИ и ММ</div>
+                    <div class="person-contact">
+                        <i class="fas fa-phone"></i>
+                        <span>+7-917-484-75-64</span>
+                    </div>
+                    <div class="person-contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>abzalimovrr@mail.ru</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="person-name">Лутфрахманова Эльза Ахнафовна</div>
+                    <div class="person-position">МНС лаборатории</div>
+                    <div class="person-contact">
+                        <i class="fas fa-phone"></i>
+                        <span>+7-967-746-88-88</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="person-name">Нигматуллин Данил Маратович</div>
+                    <div class="person-position">инженер-исследователь лаборатории</div>
+                    <div class="person-contact">
+                        <i class="fas fa-phone"></i>
+                        <span>+7-927-086-94-14</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="person-name">Вакантное место</div>
+                    <div class="person-position">лаборант (МНС) лаборатории - 1 ставка</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="person-name">Адрес лаборатории</div>
+                    <div class="person-contact">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>БГПУ, корпус №2, ауд. 403</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="person-name">Телефон лаборатории</div>
+                    <div class="person-contact">
+                        <i class="fas fa-phone"></i>
+                        <span>+7 (917) 484-75-64</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="person-name">Электронная почта</div>
+                    <div class="person-contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>abzalimovrr@mail.ru</span>
+                    </div>
+                    <div class="person-contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>abzalimovrr@mail.ru</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="person-name">Часы работы</div>
+                    <div class="person-position">Пн-Пт: пока работаем дистанционно, но по пятницам с 10.00 до 13.00 вы можете найти нас в 403 кабинете физмат корпуса.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feedback Section -->
+        <section id="feedback">
+            <h2 class="section-title">Обратная связь</h2>
+            <div class="feedback-form">
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="feedbackSubject">Тема сообщения</label>
+                        <input type="text" id="feedbackSubject" placeholder="Введите тему вашего сообщения" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackMessage">Текст сообщения</label>
+                        <textarea id="feedbackMessage" placeholder="Опишите ваш вопрос или предложение..." required rows="6"></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn" id="clearFeedbackBtn">Очистить</button>
+                        <button type="submit" class="btn btn-warning">Отправить сообщение</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>ЛИИММ БГПУ</h3>
+                    <p>Лаборатория искусственного интеллекта и математического моделирования при БГПУ</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#about">О лаборатории</a></li>
+                        <li><a href="#news">Новости</a></li>
+                        <li><a href="#courses">Курсы</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                        <li><a href="#feedback">Обратная связь</a></li>
+                        <li><a href="#" id="orderLinkFooter">Заказ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Мы в соцсетях</h4>
+                    <div class="social-icons">
+                        <a href="https://vk.com/" target="_blank"><i class="fab fa-vk"></i></a>
+                        <a href="https://t.me/+79174847564" target="_blank"><i class="fab fa-telegram"></i></a>
+                        <a href="https://wa.me/+79174847564" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 ЛИИММ БГПУ. Все права защищены.</p>
+                <p>Сайт разработан лабораторией ИИ и математического моделирования</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for admin authentication -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Код администратора</h3>
+                <button class="close-modal" id="closeAuthModal">&times;</button>
+            </div>
+            <div id="authForm">
+                <div class="form-group">
+                    <label for="adminCode">Введите код администратора для управления новостями и курсами</label>
+                    <input type="password" id="adminCode" placeholder="Введите код доступа" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="cancelAuthBtn">Отмена</button>
+                    <button type="button" class="btn add-news-btn" id="verifyAdminCode">Продолжить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing news -->
+    <div class="modal" id="newsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="newsModalTitle">Добавить новость</h3>
+                <button class="close-modal" id="closeNewsModal">&times;</button>
+            </div>
+            <form id="newsForm">
+                <input type="hidden" id="newsId">
+                <div class="form-group">
+                    <label for="newsTitle">Заголовок новости</label>
+                    <input type="text" id="newsTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsDate">Дата</label>
+                    <input type="date" id="newsDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsContent">Текст новости</label>
+                    <textarea id="newsContent" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="cancelNewsBtn">Отмена</button>
+                    <button type="submit" class="btn add-news-btn" id="saveNewsBtn">Сохранить новость</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing courses -->
+    <div class="modal" id="courseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="courseModalTitle">Добавить курс</h3>
+                <button class="close-modal" id="closeCourseModal">&times;</button>
+            </div>
+            <form id="courseForm">
+                <input type="hidden" id="courseId">
+                <div class="form-group">
+                    <label for="courseTitle">Название курса</label>
+                    <input type="text" id="courseTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="courseDate">Дата начала</label>
+                    <input type="date" id="courseDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="courseDescription">Описание курса</label>
+                    <textarea id="courseDescription" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="cancelCourseBtn">Отмена</button>
+                    <button type="submit" class="btn add-course-btn" id="saveCourseBtn">Сохранить курс</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for full news view -->
+    <div class="modal" id="fullNewsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="fullNewsTitle">Новость</h3>
+                <button class="close-modal" id="closeFullNewsModal">&times;</button>
+            </div>
+            <div class="full-news-content">
+                <div class="full-news-date" id="fullNewsDate"></div>
+                <div class="full-news-text" id="fullNewsText"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for full course view -->
+    <div class="modal" id="fullCourseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="fullCourseTitle">Курс</h3>
+                <button class="close-modal" id="closeFullCourseModal">&times;</button>
+            </div>
+            <div class="full-course-content">
+                <div class="full-course-date" id="fullCourseDate"></div>
+                <div class="full-course-text" id="fullCourseText"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for order form -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Заказ программного продукта или проекта</h3>
+                <button class="close-modal" id="closeOrderModal">&times;</button>
+            </div>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="orderSubject">Тема: что хотели заказать</label>
+                    <input type="text" id="orderSubject" placeholder="Например: Разработка системы анализа данных" required>
+                </div>
+                <div class="form-group">
+                    <label for="orderDescription">Описание: вкратце опишите ваш заказ</label>
+                    <textarea id="orderDescription" placeholder="Опишите задачу, требования, сроки..." required rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="orderName">ФИО: ваши данные</label>
+                    <input type="text" id="orderName" placeholder="Иванов Иван Иванович" required>
+                </div>
+                <div class="form-group">
+                    <label for="orderPhone">Телефон: ваш контакт</label>
+                    <input type="tel" id="orderPhone" placeholder="+7 (XXX) XXX-XX-XX" required>
+                </div>
+                <div class="form-group">
+                    <label for="orderEmail">E-mail: ваша почта</label>
+                    <input type="email" id="orderEmail" placeholder="example@mail.ru" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="cancelOrderBtn">Отмена</button>
+                    <button type="submit" class="btn btn-warning">Отправить заказ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация
+            const newsGrid = document.getElementById('newsGrid');
+            const coursesGrid = document.getElementById('coursesGrid');
+            const authModal = document.getElementById('authModal');
+            const newsModal = document.getElementById('newsModal');
+            const courseModal = document.getElementById('courseModal');
+            const fullNewsModal = document.getElementById('fullNewsModal');
+            const fullCourseModal = document.getElementById('fullCourseModal');
+            const orderModal = document.getElementById('orderModal');
+            const newsForm = document.getElementById('newsForm');
+            const courseForm = document.getElementById('courseForm');
+            const orderForm = document.getElementById('orderForm');
+            const feedbackForm = document.getElementById('feedbackForm');
+            const addNewsBtn = document.getElementById('addNewsBtn');
+            const addCourseBtn = document.getElementById('addCourseBtn');
+            const orderLink = document.getElementById('orderLink');
+            const orderLinkFooter = document.getElementById('orderLinkFooter');
+            const clearFeedbackBtn = document.getElementById('clearFeedbackBtn');
+            
+            // Пагинация новостей
+            const newsPrevBtn = document.getElementById('newsPrevBtn');
+            const newsNextBtn = document.getElementById('newsNextBtn');
+            const newsPageInfo = document.getElementById('newsPageInfo');
+            
+            // Пагинация курсов
+            const coursesPrevBtn = document.getElementById('coursesPrevBtn');
+            const coursesNextBtn = document.getElementById('coursesNextBtn');
+            const coursesPageInfo = document.getElementById('coursesPageInfo');
+            
+            // Общие переменные
+            const ADMIN_CODE = "ЛИИММ2026";
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Флаги авторизации и текущие действия
+            let isAdminAuthenticated = false;
+            let currentAction = ''; // 'addNews', 'editNews', 'addCourse', 'editCourse'
+            let currentItemId = '';
+            
+            // Пагинация
+            let currentNewsPage = 1;
+            let currentCoursesPage = 1;
+            const itemsPerPage = 3;
+            
+            // Конфигурация для отправки почты (SMTP.js)
+            const EMAIL_CONFIG = {
+                service: 'mail', // Используем Gmail
+                host: 'smtp.mail.ru',
+                port: 465,
+                secure: false,
+                auth: {
+                    user: 'abzalimovrr@mail.ru', // Заменить на реальный email
+                    pass: 'z9bUSrPg17YQ2jvyfvMV' // Заменить на реальный пароль
+                }
+            };
+            
+            // Загрузка данных
+            loadNews();
+            loadCourses();
+            
+            // Добавление Enter для ввода кода администратора
+            document.getElementById('adminCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('verifyAdminCode').click();
+                }
+            });
+            
+            // Показать модальное окно заказа
+            orderLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                orderModal.style.display = 'flex';
+            });
+            
+            orderLinkFooter.addEventListener('click', function(e) {
+                e.preventDefault();
+                orderModal.style.display = 'flex';
+            });
+            
+            // ФУНКЦИИ ДЛЯ ЗАКРЫТИЯ МОДАЛЬНЫХ ОКОН
+            // Закрытие модального окна аутентификации
+            function closeAuthModal() {
+                authModal.style.display = 'none';
+                document.getElementById('adminCode').value = '';
+            }
+            
+            // Закрытие модального окна новости
+            function closeNewsModal() {
+                newsModal.style.display = 'none';
+            }
+            
+            // Закрытие модального окна курса
+            function closeCourseModal() {
+                courseModal.style.display = 'none';
+            }
+            
+            // Закрытие модального окна полной новости
+            function closeFullNewsModal() {
+                fullNewsModal.style.display = 'none';
+            }
+            
+            // Закрытие модального окна полного курса
+            function closeFullCourseModal() {
+                fullCourseModal.style.display = 'none';
+            }
+            
+            // Закрытие модального окна заказа
+            function closeOrderModal() {
+                orderModal.style.display = 'none';
+            }
+            
+            // Назначаем обработчики закрытия для всех модальных окон
+            // Аутентификация
+            document.getElementById('closeAuthModal').addEventListener('click', closeAuthModal);
+            document.getElementById('cancelAuthBtn').addEventListener('click', closeAuthModal);
+            
+            // Новости
+            document.getElementById('closeNewsModal').addEventListener('click', closeNewsModal);
+            document.getElementById('cancelNewsBtn').addEventListener('click', closeNewsModal);
+            
+            // Курсы
+            document.getElementById('closeCourseModal').addEventListener('click', closeCourseModal);
+            document.getElementById('cancelCourseBtn').addEventListener('click', closeCourseModal);
+            
+            // Полные новости
+            document.getElementById('closeFullNewsModal').addEventListener('click', closeFullNewsModal);
+            
+            // Полные курсы
+            document.getElementById('closeFullCourseModal').addEventListener('click', closeFullCourseModal);
+            
+            // Заказ
+            document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
+            document.getElementById('cancelOrderBtn').addEventListener('click', closeOrderModal);
+            
+            // Закрытие модальных окон при клике вне окна
+            window.addEventListener('click', function(event) {
+                if (event.target === authModal) closeAuthModal();
+                if (event.target === newsModal) closeNewsModal();
+                if (event.target === courseModal) closeCourseModal();
+                if (event.target === fullNewsModal) closeFullNewsModal();
+                if (event.target === fullCourseModal) closeFullCourseModal();
+                if (event.target === orderModal) closeOrderModal();
+            });
+            
+            // Обработка формы обратной связи
+            feedbackForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const subject = document.getElementById('feedbackSubject').value;
+                const message = document.getElementById('feedbackMessage').value;
+                
+                if (!subject || !message) {
+                    alert("Заполните все поля формы!");
+                    return;
+                }
+                
+                // Отправляем письмо через SMTP.js
+                sendEmail('Обратная связь: ' + subject, message, 'feedback');
+                
+                // Показываем сообщение об отправке
+                alert("Информация отправлена");
+                
+                // Очищаем форму
+                feedbackForm.reset();
+            });
+            
+            // Очистка формы обратной связи
+            clearFeedbackBtn.addEventListener('click', function() {
+                feedbackForm.reset();
+            });
+            
+            // Обработка формы заказа
+            orderForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const subject = document.getElementById('orderSubject').value;
+                const description = document.getElementById('orderDescription').value;
+                const name = document.getElementById('orderName').value;
+                const phone = document.getElementById('orderPhone').value;
+                const email = document.getElementById('orderEmail').value;
+                
+                if (!subject || !description || !name || !phone || !email) {
+                    alert("Заполните все поля формы!");
+                    return;
+                }
+                
+                // Формируем тело письма для заказа
+                const body = `
+Тема заказа: ${subject}
+
+Описание заказа:
+${description}
+
+Контактная информация:
+ФИО: ${name}
+Телефон: ${phone}
+Email: ${email}
+
+Дата отправки: ${new Date().toLocaleString('ru-RU')}
+                `;
+                
+                // Отправляем письмо через SMTP.js
+                sendEmail('Заказ: ' + subject, body, 'order');
+                
+                // Показываем сообщение об отправке
+                alert("Заказ отправлен! Мы свяжемся с вами в ближайшее время.");
+                
+                // Очищаем форму
+                orderForm.reset();
+                closeOrderModal();
+            });
+            
+            // Функция отправки email через SMTP.js
+            function sendEmail(subject, body, type) {
+                // В реальном приложении здесь нужно использовать реальные SMTP данные
+                // Для демонстрации используем сервис smtpjs.com
+                
+                // Создаем текстовое письмо для отображения пользователю
+                const emailText = `Тема: ${subject}\n\nСообщение:\n${body}\n\nЭто письмо было отправлено с сайта ЛИИММ БГПУ.`;
+                
+                // В реальном приложении раскомментировать этот код и добавить реальные SMTP данные:
+                Email.send({
+                    Host: "smtp.mail.ru",
+                    Username: "abzalimovrr",
+                    Password: "z9bUSrPg17YQ2jvyfvMV",
+                    To: 'abzalimovrr@mail.ru',
+                    From: "abzalimovrr@mail.ru",
+                    Subject: subject,
+                    Body: emailText
+                }).then(
+                    message => {
+                        console.log("Письмо отправлено успешно");
+                        alert(type === 'feedback' ? "Сообщение отправлено!" : "Заказ отправлен!");
+                    }
+                ).catch(
+                    error => {
+                        console.error("Ошибка отправки:", error);
+                        alert("Произошла ошибка при отправке. Пожалуйста, попробуйте позже или свяжитесь с нами по телефону.");
+                    }
+                );
+                
+                
+                // Для демонстрации просто показываем содержимое письма
+                console.log("Отправка письма:");
+                console.log("Кому: abzalimovrr@mail.ru");
+                console.log("Тема:", subject);
+                console.log("Текст:", body);
+                
+                // Альтернативный вариант: показываем пользователю текст письма для ручной отправки
+                if (type === 'feedback') {
+                    alert("Сообщение подготовлено для отправки. В реальной версии сайта оно будет отправлено автоматически на abzalimovrr@mail.ru");
+                } else {
+                    alert("Заказ подготовлен для отправки. В реальной версии сайта он будет отправлен автоматически на abzalimovrr@mail.ru");
+                }
+            }
+            
+            // Добавление новости
+            addNewsBtn.addEventListener('click', function() {
+                currentAction = 'addNews';
+                authModal.style.display = 'flex';
+                document.getElementById('adminCode').focus();
+            });
+            
+            // Добавление курса
+            addCourseBtn.addEventListener('click', function() {
+                currentAction = 'addCourse';
+                authModal.style.display = 'flex';
+                document.getElementById('adminCode').focus();
+            });
+            
+            // Проверка кода администратора
+            document.getElementById('verifyAdminCode').addEventListener('click', function() {
+                const enteredCode = document.getElementById('adminCode').value.trim();
+                
+                if (enteredCode === ADMIN_CODE) {
+                    isAdminAuthenticated = true;
+                    closeAuthModal();
+                    
+                    if (currentAction === 'addNews') {
+                        showNewsModal('add');
+                    } else if (currentAction === 'editNews') {
+                        showNewsModal('edit', currentItemId);
+                    } else if (currentAction === 'addCourse') {
+                        showCourseModal('add');
+                    } else if (currentAction === 'editCourse') {
+                        showCourseModal('edit', currentItemId);
+                    }
+                } else {
+                    alert("Неверный код администратора. Попробуйте снова.");
+                    document.getElementById('adminCode').value = '';
+                    document.getElementById('adminCode').focus();
+                }
+            });
+            
+            // Пагинация новостей
+            newsPrevBtn.addEventListener('click', function() {
+                if (currentNewsPage > 1) {
+                    currentNewsPage--;
+                    loadNews();
+                }
+            });
+            
+            newsNextBtn.addEventListener('click', function() {
+                const news = getNewsFromStorage();
+                const totalPages = Math.ceil(news.length / itemsPerPage);
+                
+                if (currentNewsPage < totalPages) {
+                    currentNewsPage++;
+                    loadNews();
+                }
+            });
+            
+            // Пагинация курсов
+            coursesPrevBtn.addEventListener('click', function() {
+                if (currentCoursesPage > 1) {
+                    currentCoursesPage--;
+                    loadCourses();
+                }
+            });
+            
+            coursesNextBtn.addEventListener('click', function() {
+                const courses = getCoursesFromStorage();
+                const totalPages = Math.ceil(courses.length / itemsPerPage);
+                
+                if (currentCoursesPage < totalPages) {
+                    currentCoursesPage++;
+                    loadCourses();
+                }
+            });
+            
+            // Функция загрузки новостей
+            function loadNews() {
+                const news = getNewsFromStorage();
+                newsGrid.innerHTML = '';
+                
+                // Сортируем новости по дате (новые сначала)
+                news.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                if (news.length === 0) {
+                    newsGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                            <i class="fas fa-newspaper" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                            <h3>Новостей пока нет</h3>
+                            <p>Добавьте первую новость, нажав на кнопку "Добавить новость"</p>
+                        </div>
+                    `;
+                    newsPrevBtn.disabled = true;
+                    newsNextBtn.disabled = true;
+                    newsPageInfo.textContent = "Страница 1 из 1";
+                    return;
+                }
+                
+                // Пагинация
+                const totalPages = Math.ceil(news.length / itemsPerPage);
+                const startIndex = (currentNewsPage - 1) * itemsPerPage;
+                const endIndex = Math.min(startIndex + itemsPerPage, news.length);
+                const pageNews = news.slice(startIndex, endIndex);
+                
+                // Обновляем пагинацию
+                newsPrevBtn.disabled = currentNewsPage === 1;
+                newsNextBtn.disabled = currentNewsPage === totalPages;
+                newsPageInfo.textContent = `Страница ${currentNewsPage} из ${totalPages}`;
+                
+                // Отображаем новости текущей страницы
+                pageNews.forEach(item => {
+                    const formattedDate = formatDate(item.date);
+                    const shortContent = item.content.length > 150 ? 
+                        item.content.substring(0, 150) + '...' : item.content;
+                    
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item';
+                    newsItem.innerHTML = `
+                        <div class="news-date">
+                            <span>${formattedDate}</span>
+                            <span><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                        <div class="news-content">
+                            <h3>${item.title}</h3>
+                            <p>${shortContent}</p>
+                            <div class="news-actions">
+                                <button class="read-more-btn" data-id="${item.id}">
+                                    <i class="fas fa-eye"></i> Подробнее
+                                </button>
+                                ${isAdminAuthenticated ? `
+                                <div>
+                                    <button class="edit-news-btn" data-id="${item.id}">
+                                        <i class="fas fa-edit"></i> Редактировать
+                                    </button>
+                                    <button class="delete-news-btn" data-id="${item.id}">
+                                        <i class="fas fa-trash-alt"></i> Удалить
+                                    </button>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                    newsGrid.appendChild(newsItem);
+                });
+                
+                // Добавляем обработчики событий для кнопок
+                document.querySelectorAll('.read-more-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        showFullNews(id);
+                    });
+                });
+                
+                if (isAdminAuthenticated) {
+                    document.querySelectorAll('.edit-news-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            currentAction = 'editNews';
+                            currentItemId = id;
+                            authModal.style.display = 'flex';
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-news-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            if (!isAdminAuthenticated) {
+                                currentAction = 'deleteNews';
+                                authModal.style.display = 'flex';
+                                return;
+                            }
+                            
+                            const id = this.getAttribute('data-id');
+                            if (confirm('Вы уверены, что хотите удалить эту новость?')) {
+                                deleteNews(id);
+                                loadNews();
+                                alert("Новость удалена!");
+                            }
+                        });
+                    });
+                }
+            }
+            
+            // Функция загрузки курсов
+            function loadCourses() {
+                const courses = getCoursesFromStorage();
+                coursesGrid.innerHTML = '';
+                
+                // Сортируем курсы по дате (новые сначала)
+                courses.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                if (courses.length === 0) {
+                    coursesGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                            <i class="fas fa-graduation-cap" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                            <h3>Курсов пока нет</h3>
+                            <p>Добавьте первый курс, нажав на кнопку "Добавить курс"</p>
+                        </div>
+                    `;
+                    coursesPrevBtn.disabled = true;
+                    coursesNextBtn.disabled = true;
+                    coursesPageInfo.textContent = "Страница 1 из 1";
+                    return;
+                }
+                
+                // Пагинация
+                const totalPages = Math.ceil(courses.length / itemsPerPage);
+                const startIndex = (currentCoursesPage - 1) * itemsPerPage;
+                const endIndex = Math.min(startIndex + itemsPerPage, courses.length);
+                const pageCourses = courses.slice(startIndex, endIndex);
+                
+                // Обновляем пагинацию
+                coursesPrevBtn.disabled = currentCoursesPage === 1;
+                coursesNextBtn.disabled = currentCoursesPage === totalPages;
+                coursesPageInfo.textContent = `Страница ${currentCoursesPage} из ${totalPages}`;
+                
+                // Отображаем курсы текущей страницы
+                pageCourses.forEach(item => {
+                    const formattedDate = formatDate(item.date);
+                    const shortDescription = item.description.length > 150 ? 
+                        item.description.substring(0, 150) + '...' : item.description;
+                    
+                    const courseItem = document.createElement('div');
+                    courseItem.className = 'course-item';
+                    courseItem.innerHTML = `
+                        <div class="course-date">
+                            <span>Начало: ${formattedDate}</span>
+                            <span><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                        <div class="course-content">
+                            <h3>${item.title}</h3>
+                            <p>${shortDescription}</p>
+                            <div class="course-actions">
+                                <button class="read-more-btn" data-id="${item.id}">
+                                    <i class="fas fa-eye"></i> Подробнее
+                                </button>
+                                ${isAdminAuthenticated ? `
+                                <div>
+                                    <button class="edit-course-btn" data-id="${item.id}">
+                                        <i class="fas fa-edit"></i> Редактировать
+                                    </button>
+                                    <button class="delete-course-btn" data-id="${item.id}">
+                                        <i class="fas fa-trash-alt"></i> Удалить
+                                    </button>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                    coursesGrid.appendChild(courseItem);
+                });
+                
+                // Добавляем обработчики событий для кнопок
+                document.querySelectorAll('.course-content .read-more-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        showFullCourse(id);
+                    });
+                });
+                
+                if (isAdminAuthenticated) {
+                    document.querySelectorAll('.edit-course-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            currentAction = 'editCourse';
+                            currentItemId = id;
+                            authModal.style.display = 'flex';
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-course-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            if (!isAdminAuthenticated) {
+                                currentAction = 'deleteCourse';
+                                authModal.style.display = 'flex';
+                                return;
+                            }
+                            
+                            const id = this.getAttribute('data-id');
+                            if (confirm('Вы уверены, что хотите удалить этот курс?')) {
+                                deleteCourse(id);
+                                loadCourses();
+                                alert("Курс удален!");
+                            }
+                        });
+                    });
+                }
+            }
+            
+            // Обработка формы новости
+            newsForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('newsId').value || Date.now().toString();
+                const title = document.getElementById('newsTitle').value.trim();
+                const date = document.getElementById('newsDate').value;
+                const content = document.getElementById('newsContent').value.trim();
+                
+                if (!title || !content) {
+                    alert("Заполните все поля!");
+                    return;
+                }
+                
+                saveNews(id, title, date, content);
+                closeNewsModal();
+                loadNews();
+                alert(document.getElementById('newsId').value ? "Новость обновлена!" : "Новость добавлена!");
+            });
+            
+            // Обработка формы курса
+            courseForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('courseId').value || Date.now().toString();
+                const title = document.getElementById('courseTitle').value.trim();
+                const date = document.getElementById('courseDate').value;
+                const description = document.getElementById('courseDescription').value.trim();
+                
+                if (!title || !description) {
+                    alert("Заполните все поля!");
+                    return;
+                }
+                
+                saveCourse(id, title, date, description);
+                closeCourseModal();
+                loadCourses();
+                alert(document.getElementById('courseId').value ? "Курс обновлен!" : "Курс добавлен!");
+            });
+            
+            // Функции отображения модальных окон
+            function showNewsModal(mode, id = null) {
+                if (mode === 'add') {
+                    document.getElementById('newsModalTitle').textContent = 'Добавить новость';
+                    newsForm.reset();
+                    document.getElementById('newsId').value = '';
+                    document.getElementById('newsDate').value = today;
+                } else if (mode === 'edit') {
+                    const news = getNewsFromStorage();
+                    const newsItem = news.find(item => item.id === id);
+                    
+                    if (newsItem) {
+                        document.getElementById('newsModalTitle').textContent = 'Редактировать новость';
+                        document.getElementById('newsId').value = newsItem.id;
+                        document.getElementById('newsTitle').value = newsItem.title;
+                        document.getElementById('newsDate').value = newsItem.date;
+                        document.getElementById('newsContent').value = newsItem.content;
+                    }
+                }
+                
+                newsModal.style.display = 'flex';
+                document.getElementById('newsTitle').focus();
+            }
+            
+            function showCourseModal(mode, id = null) {
+                if (mode === 'add') {
+                    document.getElementById('courseModalTitle').textContent = 'Добавить курс';
+                    courseForm.reset();
+                    document.getElementById('courseId').value = '';
+                    document.getElementById('courseDate').value = today;
+                } else if (mode === 'edit') {
+                    const courses = getCoursesFromStorage();
+                    const courseItem = courses.find(item => item.id === id);
+                    
+                    if (courseItem) {
+                        document.getElementById('courseModalTitle').textContent = 'Редактировать курс';
+                        document.getElementById('courseId').value = courseItem.id;
+                        document.getElementById('courseTitle').value = courseItem.title;
+                        document.getElementById('courseDate').value = courseItem.date;
+                        document.getElementById('courseDescription').value = courseItem.description;
+                    }
+                }
+                
+                courseModal.style.display = 'flex';
+                document.getElementById('courseTitle').focus();
+            }
+            
+            function showFullNews(id) {
+                const news = getNewsFromStorage();
+                const newsItem = news.find(item => item.id === id);
+                
+                if (newsItem) {
+                    document.getElementById('fullNewsTitle').textContent = newsItem.title;
+                    document.getElementById('fullNewsDate').textContent = `Дата публикации: ${formatDate(newsItem.date)}`;
+                    document.getElementById('fullNewsText').textContent = newsItem.content;
+                    fullNewsModal.style.display = 'flex';
+                }
+            }
+            
+            function showFullCourse(id) {
+                const courses = getCoursesFromStorage();
+                const courseItem = courses.find(item => item.id === id);
+                
+                if (courseItem) {
+                    document.getElementById('fullCourseTitle').textContent = courseItem.title;
+                    document.getElementById('fullCourseDate').textContent = `Дата начала: ${formatDate(courseItem.date)}`;
+                    document.getElementById('fullCourseText').textContent = courseItem.description;
+                    fullCourseModal.style.display = 'flex';
+                }
+            }
+            
+            // Функции работы с данными
+            function saveNews(id, title, date, content) {
+                const news = getNewsFromStorage();
+                const existingIndex = news.findIndex(item => item.id === id);
+                
+                if (existingIndex !== -1) {
+                    news[existingIndex] = { id, title, date, content };
+                } else {
+                    news.push({ id, title, date, content });
+                }
+                
+                localStorage.setItem('lab_news', JSON.stringify(news));
+            }
+            
+            function saveCourse(id, title, date, description) {
+                const courses = getCoursesFromStorage();
+                const existingIndex = courses.findIndex(item => item.id === id);
+                
+                if (existingIndex !== -1) {
+                    courses[existingIndex] = { id, title, date, description };
+                } else {
+                    courses.push({ id, title, date, description });
+                }
+                
+                localStorage.setItem('lab_courses', JSON.stringify(courses));
+            }
+            
+            function deleteNews(id) {
+                let news = getNewsFromStorage();
+                news = news.filter(item => item.id !== id);
+                localStorage.setItem('lab_news', JSON.stringify(news));
+            }
+            
+            function deleteCourse(id) {
+                let courses = getCoursesFromStorage();
+                courses = courses.filter(item => item.id !== id);
+                localStorage.setItem('lab_courses', JSON.stringify(courses));
+            }
+            
+            function getNewsFromStorage() {
+                const newsJSON = localStorage.getItem('lab_news');
+                return newsJSON ? JSON.parse(newsJSON) : [];
+            }
+            
+            function getCoursesFromStorage() {
+                const coursesJSON = localStorage.getItem('lab_courses');
+                return coursesJSON ? JSON.parse(coursesJSON) : [];
+            }
+            
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                return date.toLocaleDateString('ru-RU', options);
+            }
+            
+            // Навигация по странице
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.getElementById('navMenu').classList.remove('active');
+                });
+            });
+            
+            // Инициализация начальных данных (исправленные новости)
+            if (getNewsFromStorage().length === 0) {
+                const initialNews = [
+                    {
+                        id: '1',
+                        title: 'Создание лаборатории ИИ и ММ при БГПУ',
+                        date: '2026-01-15',
+                        content: 'Ректора БГПУ иниировал создание лаборатории искусственного интеллекта и математического моделирования. Определены основные направления научно-исследовательской деятельности и утвержден состав научного коллектива. Лаборатория станет центром компетенций в области современных информационных технологий и ИИ, анализа данных и интеллектуальных систем.'
+                    },
+                    {
+                        id: '2',
+                        title: 'Завершение разработки нормативной документации',
+                        date: '2026-01-29',
+                        content: 'Разработан полный пакет документов для функционирования лаборатории: положение о ЛИИММ, должностные инструкции сотрудников, кодекс этики в сфере искусственного интеллекта. Все документы направлены в научно-исследовательский отдел для согласования. Работа по проекту ведется в соответствии с утвержденным планом.'
+                    },
+                    {
+                        id: '3',
+                        title: 'Совещание по проекту лаборатории',
+                        date: '2026-01-30',
+                        content: '30.01.2026: состоялась рабочая встреча с проректором Габдрахмановой Ксенией Владиславовной. Присутствовали: представители учебной части, ответственный исполнитель по проекту. На встрече: детально обсуждены технические вопросы по генерации РПД и банка заданий для ФОС, границы проекта, согласованы основные технические и организационные параметры проекта, проработаны ключевые нюансы для формирования Технического задания (ТЗ). ВАЖНО: 1. Предоставление доступа к ИИ-моделям через API. Необходимо согласование с УФИЦ РАН по поводу суперкомпьютера, необходимо заключение соглашения по использованию технических возможностей УФИЦ РАН. Для полноценного использования ИИ-моделей через УФИЦ РАН необходима установка и настройка суперкомпьютера, это займет не менее 2-3 недель. Важно приступить в кратчайшие сроки. 2. Предоставить полную выгрузку списка литературы из библиотечной системы БГПУ (можно в Excel файле), необходимо для реализации проекта. Подготовка технической и проектной документации: на основании итогов встречи от 30.01.2026 ведется активная работа над Техническим заданием (ТЗ) выполнения проекта - Генерация РПД и задания для ФОС. Текущий статус ТЗ: готовность оценивается в 90%. Окончательная версия ТЗ будет представлена на рассмотрение ответственным лицам не позднее 9 февраля 2026 года. Планирование и информирование: составлен поэтапный план работы и бюджет по проекту лаборатории. Указанный план, вместе с пакетом разработанных документов (Положение, ДИ, Кодекс этики), направлен для ознакомления всем заинтересованным проректорам и в научно-исследовательский отдел БГПУ.'
+                    }
+                ];
+                
+                localStorage.setItem('lab_news', JSON.stringify(initialNews));
+            }
+            
+            if (getCoursesFromStorage().length === 0) {
+                const initialCourses = [
+                    {
+                        id: '1',
+                        title: 'Профессиональная презентация и доклад за 15 минут с ИИ',
+                        date: '2026-02-03',
+                        description: '4 часа, которые перевернут ваш подход к выступлениям. Вы узнаете и научитесь: Как с помощью ИИ превратить сырую идею в яркую структуру за 5 минут. Секреты визуального сторителлинга: создаём слайды, от которых невозможно отвести взгляд. Голос, жесты, внимание: усиливаем харизму даже в формате онлайн-доклада. Лайфхаки для работы с волнением и импровизации на сцене. Готовый алгоритм «от нуля до блестящего выступления» — быстрее, чем чашка кофе. Это не просто теория. На мастер-классе вы создадите свою презентацию с нуля под руководством эксперта и уйдёте с готовым к использованию материалом и персональным digital-помощником. Для кого это? — Руководители и предприниматели, которые ценят время. — Специалисты, выступающие перед клиентами или советом директоров. — Учёные и преподаватели, желающие говорить ярко и понятно. — Все, кто хочет перестать бояться камеры и аудитории. Время — ваш самый ценный ресурс. Потратьте 4 часа сегодня, чтобы в будущем экономить дни на подготовке и получать овации вместо нервного трепета. Записаться можно по форме обратной связи внизу сайта, или напишите нам по телеграм/макс/ватсап - телефоны ниже (лучше не звоните, пишите).'
+                    },
+                    {
+                        id: '2',
+                        title: 'Подготовка проекта за пару часов вместе с ИИ',
+                        date: '2026-02-03',
+                        description: 'Это не просто мастер-класс. Это — диалог с будущим. Представьте: вместо недель сомнений и поисков — четыре часа ясного, структурированного творчества. Где ваш интеллект встречается с искусственным, чтобы создать синергию невероятной силы. Что вас ждет: Алоха-момент: Вы и ИИ. Вы задаете вектор, а он мгновенно генерирует идеи, названия, структуры. Без страха, без цензуры, только поток. От хаоса к гармонии: Мы превратим россыпь мыслей в безупречный план: от концепции и целевой аудитории до первого шага реализации. Живой прототип: К финалу у вас в руках будет не просто идея, а готовый проектный документ — дорожная карта к воплощению. Магия тандема: Научитесь не «пользоваться инструментом», а сотрудничать с партнером, который усиливает вашу креативность в разы. За 4 часа вы: • Пройдете путь от Что, если?.. до Вот как это будет!. • Получите четкий алгоритм, который сможете применять к любым будущим замыслам. • Освободитесь от творческого блока и страха начала. • Увидите, как технологии становятся не угрозой, а вашим самым вдохновляющим соавтором. Для кого это: Для предпринимателей, креаторов, специалистов и всех, кто давно вынашивает идею — будь то стартап, курс, книга, событие или личный бренд. Записаться можно по форме обратной связи внизу сайта, или напишите нам по телеграм/макс/ватсап - телефоны ниже (лучше не звоните, пишите).'
+                    },
+                    {
+                        id: '3',
+                        title: 'Как разработать красивый и функциональный одностраничный сайт за 30 минут',
+                        date: '2026-02-03',
+                        description: 'Что вас ждёт: Инсайты и инструменты: Узнаем, как превратить идею в готовый дизайн за несколько шагов. Скорость и стиль: Освоим технологии, которые позволяют создавать элегантные страницы быстрее, чем заварить кофе. Глубокие знания за 4 часа: Не просто теория, а чёткий план действий, который вы сможете повторить снова и снова. Реальный пример: Этот промосайт был собран за 20 минут с помощью ИИ. И это только начало. Представьте: Утро — у вас есть идея. Через полчаса — у вас уже есть сайт, который цепляет взгляд и решает задачи. К вечеру — первые отклики, первые клиенты, первые результаты. Мы не просто учим делать сайты. Мы даём вам свободу творить, запускать и побеждать — быстро, красиво, эффективно. 4 часа, которые изменят ваше представление о создании сайтов. Забронируйте место — количество участников ограничено! Ваш будущий сайт уже ждёт. Позвольте себе создать его. Записаться можно по форме обратной связи внизу сайта, или напишите нам по телеграм/макс/ватсап - телефоны ниже (лучше не звоните, пишите).'
+                    }
+                ];
+                
+                localStorage.setItem('lab_courses', JSON.stringify(initialCourses));
+            }
+            
+            // Загружаем данные после инициализации
+            loadNews();
+            loadCourses();
+        });
+    </script>
+</body>
+</html>
