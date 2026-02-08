@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Лаборатория ИИ и математического моделирования - БГПУ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Добавляем SMTP.js для отправки почты -->
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
     <style>
         :root {
             --primary-color: #1a237e;
@@ -206,14 +204,6 @@
             gap: 15px;
         }
         
-        .add-news-btn, .add-course-btn {
-            background-color: var(--success-color);
-        }
-        
-        .add-news-btn:hover, .add-course-btn:hover {
-            background-color: #1b5e20;
-        }
-        
         .news-grid, .courses-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -285,22 +275,6 @@
         
         .read-more-btn:hover {
             color: var(--primary-color);
-        }
-        
-        .edit-news-btn, .edit-course-btn {
-            color: var(--success-color);
-        }
-        
-        .edit-news-btn:hover, .edit-course-btn:hover {
-            color: #1b5e20;
-        }
-        
-        .delete-news-btn, .delete-course-btn {
-            color: #d32f2f;
-        }
-        
-        .delete-news-btn:hover, .delete-course-btn:hover {
-            color: #b71c1c;
         }
         
         /* Pagination */
@@ -388,39 +362,6 @@
             color: var(--primary-color);
         }
         
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 1rem;
-        }
-        
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 25px;
-        }
-        
         /* Full news modal */
         .full-news-content, .full-course-content {
             padding: 10px 0;
@@ -493,16 +434,7 @@
             width: 20px;
         }
         
-        /* Feedback form */
-        .feedback-form {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
+        /* Contact message */
         .contact-message {
             font-size: 1.1rem;
             line-height: 1.8;
@@ -606,6 +538,18 @@
             font-size: 0.9rem;
         }
         
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+        
         /* Responsive */
         @media (max-width: 992px) {
             .about-content {
@@ -668,7 +612,7 @@
                 padding: 20px;
             }
             
-            .feedback-form {
+            .contact-message {
                 padding: 20px;
             }
             
@@ -702,8 +646,6 @@
                         <li><a href="#news">Новости</a></li>
                         <li><a href="#courses">Курсы</a></li>
                         <li><a href="#contacts">Контакты</a></li>
-                        <li><a href="#feedback">Обратная связь</a></li>
-                        <li><a href="#" id="orderLink">Заказ</a></li>
                     </ul>
                 </nav>
             </div>
@@ -739,18 +681,16 @@
 
         <!-- News Section -->
         <section id="news">
-            <div class="news-controls">
-                <h2 class="section-title">Новости лаборатории</h2>
-                <button class="btn add-news-btn" id="addNewsBtn">
-                    <i class="fas fa-plus"></i> Добавить новость
-                </button>
-            </div>
+            <h2 class="section-title">Новости лаборатории</h2>
             
             <div class="news-grid" id="newsGrid">
-                <!-- Новости будут загружаться здесь -->
+                <div class="loading" id="newsLoading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Загрузка новостей...</p>
+                </div>
             </div>
             
-            <div class="pagination" id="newsPagination">
+            <div class="pagination" id="newsPagination" style="display: none;">
                 <button class="pagination-btn" id="newsPrevBtn">Назад</button>
                 <span class="page-info" id="newsPageInfo">Страница 1 из 1</span>
                 <button class="pagination-btn" id="newsNextBtn">Вперед</button>
@@ -759,18 +699,16 @@
 
         <!-- Courses Section -->
         <section id="courses">
-            <div class="courses-controls">
-                <h2 class="section-title">Курсы лаборатории</h2>
-                <button class="btn add-course-btn" id="addCourseBtn">
-                    <i class="fas fa-plus"></i> Добавить курс
-                </button>
-            </div>
+            <h2 class="section-title">Курсы лаборатории</h2>
             
             <div class="courses-grid" id="coursesGrid">
-                <!-- Курсы будут загружаться здесь -->
+                <div class="loading" id="coursesLoading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Загрузка курсов...</p>
+                </div>
             </div>
             
-            <div class="pagination" id="coursesPagination">
+            <div class="pagination" id="coursesPagination" style="display: none;">
                 <button class="pagination-btn" id="coursesPrevBtn">Назад</button>
                 <span class="page-info" id="coursesPageInfo">Страница 1 из 1</span>
                 <button class="pagination-btn" id="coursesNextBtn">Вперед</button>
@@ -851,18 +789,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Feedback Section -->
-        <section id="feedback">
-            <h2 class="section-title">Обратная связь</h2>
-            <div class="feedback-form">
-                <div class="contact-message">
-                    <i class="fas fa-comments"></i>
-                    <p>Если вы хотите отправить сообщение, можете написать по электронной почте на <a href="mailto:abzalimovrr@mail.ru" class="contact-email">abzalimovrr@mail.ru</a> или по телеграм/макс.</p>
-                    <p>Мы всегда рады услышать ваши предложения, ответить на вопросы и обсудить возможности сотрудничества.</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -881,8 +807,6 @@
                         <li><a href="#news">Новости</a></li>
                         <li><a href="#courses">Курсы</a></li>
                         <li><a href="#contacts">Контакты</a></li>
-                        <li><a href="#feedback">Обратная связь</a></li>
-                        <li><a href="#" id="orderLinkFooter">Заказ</a></li>
                     </ul>
                 </div>
                 <div class="footer-social">
@@ -901,84 +825,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Modal for admin authentication -->
-    <div class="modal" id="authModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Код администратора</h3>
-                <button class="close-modal" id="closeAuthModal">&times;</button>
-            </div>
-            <div id="authForm">
-                <div class="form-group">
-                    <label for="adminCode">Введите код администратора для управления новостями и курсами</label>
-                    <input type="password" id="adminCode" placeholder="Введите код доступа" required>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn" id="cancelAuthBtn">Отмена</button>
-                    <button type="button" class="btn add-news-btn" id="verifyAdminCode">Продолжить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for adding/editing news -->
-    <div class="modal" id="newsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="newsModalTitle">Добавить новость</h3>
-                <button class="close-modal" id="closeNewsModal">&times;</button>
-            </div>
-            <form id="newsForm">
-                <input type="hidden" id="newsId">
-                <div class="form-group">
-                    <label for="newsTitle">Заголовок новости</label>
-                    <input type="text" id="newsTitle" required>
-                </div>
-                <div class="form-group">
-                    <label for="newsDate">Дата</label>
-                    <input type="date" id="newsDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="newsContent">Текст новости</label>
-                    <textarea id="newsContent" required></textarea>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn" id="cancelNewsBtn">Отмена</button>
-                    <button type="submit" class="btn add-news-btn" id="saveNewsBtn">Сохранить новость</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal for adding/editing courses -->
-    <div class="modal" id="courseModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="courseModalTitle">Добавить курс</h3>
-                <button class="close-modal" id="closeCourseModal">&times;</button>
-            </div>
-            <form id="courseForm">
-                <input type="hidden" id="courseId">
-                <div class="form-group">
-                    <label for="courseTitle">Название курса</label>
-                    <input type="text" id="courseTitle" required>
-                </div>
-                <div class="form-group">
-                    <label for="courseDate">Дата начала</label>
-                    <input type="date" id="courseDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="courseDescription">Описание курса</label>
-                    <textarea id="courseDescription" required></textarea>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn" id="cancelCourseBtn">Отмена</button>
-                    <button type="submit" class="btn add-course-btn" id="saveCourseBtn">Сохранить курс</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <!-- Modal for full news view -->
     <div class="modal" id="fullNewsModal">
@@ -1008,38 +854,13 @@
         </div>
     </div>
 
-    <!-- Modal for order form -->
-    <div class="modal" id="orderModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Заказ программного продукта или проекта</h3>
-                <button class="close-modal" id="closeOrderModal">&times;</button>
-            </div>
-            <div class="contact-message" style="padding: 20px;">
-                <i class="fas fa-briefcase"></i>
-                <p>Если вы хотите сделать заказ программного продукта или проекта, напишите нам по электронной почте на <a href="mailto:abzalimovrr@mail.ru" class="contact-email">abzalimovrr@mail.ru</a> или по телеграм/макс.</p>
-                <p>Опишите ваши требования, сроки и бюджет, и мы свяжемся с вами для обсуждения деталей сотрудничества.</p>
-            </div>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Инициализация
             const newsGrid = document.getElementById('newsGrid');
             const coursesGrid = document.getElementById('coursesGrid');
-            const authModal = document.getElementById('authModal');
-            const newsModal = document.getElementById('newsModal');
-            const courseModal = document.getElementById('courseModal');
             const fullNewsModal = document.getElementById('fullNewsModal');
             const fullCourseModal = document.getElementById('fullCourseModal');
-            const orderModal = document.getElementById('orderModal');
-            const newsForm = document.getElementById('newsForm');
-            const courseForm = document.getElementById('courseForm');
-            const addNewsBtn = document.getElementById('addNewsBtn');
-            const addCourseBtn = document.getElementById('addCourseBtn');
-            const orderLink = document.getElementById('orderLink');
-            const orderLinkFooter = document.getElementById('orderLinkFooter');
             
             // Пагинация новостей
             const newsPrevBtn = document.getElementById('newsPrevBtn');
@@ -1051,60 +872,28 @@
             const coursesNextBtn = document.getElementById('coursesNextBtn');
             const coursesPageInfo = document.getElementById('coursesPageInfo');
             
-            // Общие переменные
-            const ADMIN_CODE = "ЛИИММ2026";
-            const today = new Date().toISOString().split('T')[0];
-            
-            // Флаги авторизации и текущие действия
-            let isAdminAuthenticated = false;
-            let currentAction = ''; // 'addNews', 'editNews', 'addCourse', 'editCourse'
-            let currentItemId = '';
-            
             // Пагинация
             let currentNewsPage = 1;
             let currentCoursesPage = 1;
             const itemsPerPage = 3;
             
+            // URL для JSON файлов - исправленные пути
+            const NEWS_JSON_URL = './news.json';
+            const COURSES_JSON_URL = './courses.json';
+            
             // Загрузка данных
             loadNews();
             loadCourses();
             
-            // Добавление Enter для ввода кода администратора
-            document.getElementById('adminCode').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    document.getElementById('verifyAdminCode').click();
-                }
-            });
+            // Мобильное меню
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
             
-            // Показать модальное окно заказа
-            orderLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                orderModal.style.display = 'flex';
-            });
-            
-            orderLinkFooter.addEventListener('click', function(e) {
-                e.preventDefault();
-                orderModal.style.display = 'flex';
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
             });
             
             // ФУНКЦИИ ДЛЯ ЗАКРЫТИЯ МОДАЛЬНЫХ ОКОН
-            // Закрытие модального окна аутентификации
-            function closeAuthModal() {
-                authModal.style.display = 'none';
-                document.getElementById('adminCode').value = '';
-            }
-            
-            // Закрытие модального окна новости
-            function closeNewsModal() {
-                newsModal.style.display = 'none';
-            }
-            
-            // Закрытие модального окна курса
-            function closeCourseModal() {
-                courseModal.style.display = 'none';
-            }
-            
             // Закрытие модального окна полной новости
             function closeFullNewsModal() {
                 fullNewsModal.style.display = 'none';
@@ -1115,96 +904,150 @@
                 fullCourseModal.style.display = 'none';
             }
             
-            // Закрытие модального окна заказа
-            function closeOrderModal() {
-                orderModal.style.display = 'none';
-            }
-            
-            // Назначаем обработчики закрытия для всех модальных окон
-            // Аутентификация
-            document.getElementById('closeAuthModal').addEventListener('click', closeAuthModal);
-            document.getElementById('cancelAuthBtn').addEventListener('click', closeAuthModal);
-            
-            // Новости
-            document.getElementById('closeNewsModal').addEventListener('click', closeNewsModal);
-            document.getElementById('cancelNewsBtn').addEventListener('click', closeNewsModal);
-            
-            // Курсы
-            document.getElementById('closeCourseModal').addEventListener('click', closeCourseModal);
-            document.getElementById('cancelCourseBtn').addEventListener('click', closeCourseModal);
-            
-            // Полные новости
+            // Назначаем обработчики закрытия для модальных окон
             document.getElementById('closeFullNewsModal').addEventListener('click', closeFullNewsModal);
-            
-            // Полные курсы
             document.getElementById('closeFullCourseModal').addEventListener('click', closeFullCourseModal);
-            
-            // Заказ
-            document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
             
             // Закрытие модальных окон при клике вне окна
             window.addEventListener('click', function(event) {
-                if (event.target === authModal) closeAuthModal();
-                if (event.target === newsModal) closeNewsModal();
-                if (event.target === courseModal) closeCourseModal();
                 if (event.target === fullNewsModal) closeFullNewsModal();
                 if (event.target === fullCourseModal) closeFullCourseModal();
-                if (event.target === orderModal) closeOrderModal();
             });
             
-            // Добавление новости
-            addNewsBtn.addEventListener('click', function() {
-                currentAction = 'addNews';
-                authModal.style.display = 'flex';
-                document.getElementById('adminCode').focus();
-            });
+            // Переменные для хранения данных
+            let newsData = [];
+            let coursesData = [];
+            let totalNewsPages = 1;
+            let totalCoursesPages = 1;
             
-            // Добавление курса
-            addCourseBtn.addEventListener('click', function() {
-                currentAction = 'addCourse';
-                authModal.style.display = 'flex';
-                document.getElementById('adminCode').focus();
-            });
-            
-            // Проверка кода администратора
-            document.getElementById('verifyAdminCode').addEventListener('click', function() {
-                const enteredCode = document.getElementById('adminCode').value.trim();
-                
-                if (enteredCode === ADMIN_CODE) {
-                    isAdminAuthenticated = true;
-                    closeAuthModal();
+            // Функция загрузки новостей из JSON
+            async function loadNews() {
+                try {
+                    console.log('Загрузка новостей из:', NEWS_JSON_URL);
+                    const response = await fetch(NEWS_JSON_URL, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        cache: 'no-cache' // Чтобы избежать кэширования при разработке
+                    });
                     
-                    if (currentAction === 'addNews') {
-                        showNewsModal('add');
-                    } else if (currentAction === 'editNews') {
-                        showNewsModal('edit', currentItemId);
-                    } else if (currentAction === 'addCourse') {
-                        showCourseModal('add');
-                    } else if (currentAction === 'editCourse') {
-                        showCourseModal('edit', currentItemId);
+                    console.log('Статус ответа:', response.status, response.statusText);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Ошибка загрузки новостей: ${response.status} ${response.statusText}`);
                     }
-                } else {
-                    alert("Неверный код администратора. Попробуйте снова.");
-                    document.getElementById('adminCode').value = '';
-                    document.getElementById('adminCode').focus();
+                    
+                    const text = await response.text();
+                    console.log('Полученные данные:', text.substring(0, 200) + '...');
+                    
+                    try {
+                        newsData = JSON.parse(text);
+                    } catch (parseError) {
+                        console.error('Ошибка парсинга JSON:', parseError);
+                        throw new Error('Неверный формат JSON файла новостей');
+                    }
+                    
+                    // Проверяем, что данные в правильном формате
+                    if (!Array.isArray(newsData)) {
+                        throw new Error('Неверный формат данных новостей: ожидается массив');
+                    }
+                    
+                    console.log('Загружено новостей:', newsData.length);
+                    
+                    // Сортируем новости по дате (новые сначала)
+                    newsData.sort((a, b) => {
+                        const dateA = new Date(a.date || '1970-01-01');
+                        const dateB = new Date(b.date || '1970-01-01');
+                        return dateB - dateA;
+                    });
+                    
+                    displayNews();
+                } catch (error) {
+                    console.error('Ошибка загрузки новостей:', error);
+                    newsGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px; color: #d32f2f;"></i>
+                            <h3>Ошибка загрузки новостей</h3>
+                            <p>Не удалось загрузить новости. Пожалуйста, проверьте файл news.json</p>
+                            <p style="font-size: 0.9rem; color: #999;">${error.message}</p>
+                            <p style="font-size: 0.9rem; color: #999;">Проверьте, что файл news.json существует в той же папке, что и index.html</p>
+                            <button class="btn" onclick="loadNews()" style="margin-top: 15px;">Повторить попытку</button>
+                        </div>
+                    `;
                 }
-            });
+            }
+            
+            // Функция загрузки курсов из JSON
+            async function loadCourses() {
+                try {
+                    console.log('Загрузка курсов из:', COURSES_JSON_URL);
+                    const response = await fetch(COURSES_JSON_URL, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        cache: 'no-cache'
+                    });
+                    
+                    console.log('Статус ответа:', response.status, response.statusText);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Ошибка загрузки курсов: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const text = await response.text();
+                    console.log('Полученные данные:', text.substring(0, 200) + '...');
+                    
+                    try {
+                        coursesData = JSON.parse(text);
+                    } catch (parseError) {
+                        console.error('Ошибка парсинга JSON:', parseError);
+                        throw new Error('Неверный формат JSON файла курсов');
+                    }
+                    
+                    // Проверяем, что данные в правильном формате
+                    if (!Array.isArray(coursesData)) {
+                        throw new Error('Неверный формат данных курсов: ожидается массив');
+                    }
+                    
+                    console.log('Загружено курсов:', coursesData.length);
+                    
+                    // Сортируем курсы по дате (новые сначала)
+                    coursesData.sort((a, b) => {
+                        const dateA = new Date(a.date || '1970-01-01');
+                        const dateB = new Date(b.date || '1970-01-01');
+                        return dateB - dateA;
+                    });
+                    
+                    displayCourses();
+                } catch (error) {
+                    console.error('Ошибка загрузки курсов:', error);
+                    coursesGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px; color: #d32f2f;"></i>
+                            <h3>Ошибка загрузки курсов</h3>
+                            <p>Не удалось загрузить курсы. Пожалуйста, проверьте файл courses.json</p>
+                            <p style="font-size: 0.9rem; color: #999;">${error.message}</p>
+                            <p style="font-size: 0.9rem; color: #999;">Проверьте, что файл courses.json существует в той же папке, что и index.html</p>
+                            <button class="btn" onclick="loadCourses()" style="margin-top: 15px;">Повторить попытку</button>
+                        </div>
+                    `;
+                }
+            }
             
             // Пагинация новостей
             newsPrevBtn.addEventListener('click', function() {
                 if (currentNewsPage > 1) {
                     currentNewsPage--;
-                    loadNews();
+                    displayNews();
                 }
             });
             
             newsNextBtn.addEventListener('click', function() {
-                const news = getNewsFromStorage();
-                const totalPages = Math.ceil(news.length / itemsPerPage);
-                
-                if (currentNewsPage < totalPages) {
+                if (currentNewsPage < totalNewsPages) {
                     currentNewsPage++;
-                    loadNews();
+                    displayNews();
                 }
             });
             
@@ -1212,58 +1055,53 @@
             coursesPrevBtn.addEventListener('click', function() {
                 if (currentCoursesPage > 1) {
                     currentCoursesPage--;
-                    loadCourses();
+                    displayCourses();
                 }
             });
             
             coursesNextBtn.addEventListener('click', function() {
-                const courses = getCoursesFromStorage();
-                const totalPages = Math.ceil(courses.length / itemsPerPage);
-                
-                if (currentCoursesPage < totalPages) {
+                if (currentCoursesPage < totalCoursesPages) {
                     currentCoursesPage++;
-                    loadCourses();
+                    displayCourses();
                 }
             });
             
-            // Функция загрузки новостей
-            function loadNews() {
-                const news = getNewsFromStorage();
+            // Функция отображения новостей
+            function displayNews() {
                 newsGrid.innerHTML = '';
                 
-                // Сортируем новости по дате (новые сначала)
-                news.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                if (news.length === 0) {
+                if (!newsData || newsData.length === 0) {
                     newsGrid.innerHTML = `
                         <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
                             <i class="fas fa-newspaper" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
                             <h3>Новостей пока нет</h3>
-                            <p>Добавьте первую новость, нажав на кнопку "Добавить новость"</p>
+                            <p>Скоро здесь появятся новости лаборатории</p>
+                            <p style="font-size: 0.9rem; color: #999; margin-top: 10px;">Или создайте файл news.json с данными</p>
                         </div>
                     `;
-                    newsPrevBtn.disabled = true;
-                    newsNextBtn.disabled = true;
-                    newsPageInfo.textContent = "Страница 1 из 1";
+                    document.getElementById('newsPagination').style.display = 'none';
                     return;
                 }
                 
                 // Пагинация
-                const totalPages = Math.ceil(news.length / itemsPerPage);
+                totalNewsPages = Math.ceil(newsData.length / itemsPerPage);
                 const startIndex = (currentNewsPage - 1) * itemsPerPage;
-                const endIndex = Math.min(startIndex + itemsPerPage, news.length);
-                const pageNews = news.slice(startIndex, endIndex);
+                const endIndex = Math.min(startIndex + itemsPerPage, newsData.length);
+                const pageNews = newsData.slice(startIndex, endIndex);
                 
                 // Обновляем пагинацию
                 newsPrevBtn.disabled = currentNewsPage === 1;
-                newsNextBtn.disabled = currentNewsPage === totalPages;
-                newsPageInfo.textContent = `Страница ${currentNewsPage} из ${totalPages}`;
+                newsNextBtn.disabled = currentNewsPage === totalNewsPages;
+                newsPageInfo.textContent = `Страница ${currentNewsPage} из ${totalNewsPages}`;
+                
+                // Показываем пагинацию, если есть больше одной страницы
+                document.getElementById('newsPagination').style.display = totalNewsPages > 1 ? 'flex' : 'none';
                 
                 // Отображаем новости текущей страницы
                 pageNews.forEach(item => {
                     const formattedDate = formatDate(item.date);
-                    const shortContent = item.content.length > 150 ? 
-                        item.content.substring(0, 150) + '...' : item.content;
+                    const shortContent = item.content && item.content.length > 150 ? 
+                        item.content.substring(0, 150) + '...' : item.content || '';
                     
                     const newsItem = document.createElement('div');
                     newsItem.className = 'news-item';
@@ -1273,22 +1111,12 @@
                             <span><i class="far fa-calendar-alt"></i></span>
                         </div>
                         <div class="news-content">
-                            <h3>${item.title}</h3>
-                            <p>${shortContent}</p>
+                            <h3>${escapeHtml(item.title || 'Без названия')}</h3>
+                            <p>${escapeHtml(shortContent)}</p>
                             <div class="news-actions">
-                                <button class="read-more-btn" data-id="${item.id}">
+                                <button class="read-more-btn" data-id="${item.id || ''}">
                                     <i class="fas fa-eye"></i> Подробнее
                                 </button>
-                                ${isAdminAuthenticated ? `
-                                <div>
-                                    <button class="edit-news-btn" data-id="${item.id}">
-                                        <i class="fas fa-edit"></i> Редактировать
-                                    </button>
-                                    <button class="delete-news-btn" data-id="${item.id}">
-                                        <i class="fas fa-trash-alt"></i> Удалить
-                                    </button>
-                                </div>
-                                ` : ''}
                             </div>
                         </div>
                     `;
@@ -1296,80 +1124,50 @@
                 });
                 
                 // Добавляем обработчики событий для кнопок
-                document.querySelectorAll('.read-more-btn').forEach(btn => {
+                document.querySelectorAll('.news-content .read-more-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const id = this.getAttribute('data-id');
                         showFullNews(id);
                     });
                 });
-                
-                if (isAdminAuthenticated) {
-                    document.querySelectorAll('.edit-news-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const id = this.getAttribute('data-id');
-                            currentAction = 'editNews';
-                            currentItemId = id;
-                            authModal.style.display = 'flex';
-                        });
-                    });
-                    
-                    document.querySelectorAll('.delete-news-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            if (!isAdminAuthenticated) {
-                                currentAction = 'deleteNews';
-                                authModal.style.display = 'flex';
-                                return;
-                            }
-                            
-                            const id = this.getAttribute('data-id');
-                            if (confirm('Вы уверены, что хотите удалить эту новость?')) {
-                                deleteNews(id);
-                                loadNews();
-                                alert("Новость удалена!");
-                            }
-                        });
-                    });
-                }
             }
             
-            // Функция загрузки курсов
-            function loadCourses() {
-                const courses = getCoursesFromStorage();
+            // Функция отображения курсов
+            function displayCourses() {
                 coursesGrid.innerHTML = '';
                 
-                // Сортируем курсы по дате (новые сначала)
-                courses.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                if (courses.length === 0) {
+                if (!coursesData || coursesData.length === 0) {
                     coursesGrid.innerHTML = `
                         <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
                             <i class="fas fa-graduation-cap" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
                             <h3>Курсов пока нет</h3>
-                            <p>Добавьте первый курс, нажав на кнопку "Добавить курс"</p>
+                            <p>Скоро здесь появятся курсы лаборатории</p>
+                            <p style="font-size: 0.9rem; color: #999; margin-top: 10px;">Или создайте файл courses.json с данными</p>
                         </div>
                     `;
-                    coursesPrevBtn.disabled = true;
-                    coursesNextBtn.disabled = true;
-                    coursesPageInfo.textContent = "Страница 1 из 1";
+                    document.getElementById('coursesPagination').style.display = 'none';
                     return;
                 }
                 
                 // Пагинация
-                const totalPages = Math.ceil(courses.length / itemsPerPage);
+                totalCoursesPages = Math.ceil(coursesData.length / itemsPerPage);
                 const startIndex = (currentCoursesPage - 1) * itemsPerPage;
-                const endIndex = Math.min(startIndex + itemsPerPage, courses.length);
-                const pageCourses = courses.slice(startIndex, endIndex);
+                const endIndex = Math.min(startIndex + itemsPerPage, coursesData.length);
+                const pageCourses = coursesData.slice(startIndex, endIndex);
                 
                 // Обновляем пагинацию
                 coursesPrevBtn.disabled = currentCoursesPage === 1;
-                coursesNextBtn.disabled = currentCoursesPage === totalPages;
-                coursesPageInfo.textContent = `Страница ${currentCoursesPage} из ${totalPages}`;
+                coursesNextBtn.disabled = currentCoursesPage === totalCoursesPages;
+                coursesPageInfo.textContent = `Страница ${currentCoursesPage} из ${totalCoursesPages}`;
+                
+                // Показываем пагинацию, если есть больше одной страницы
+                document.getElementById('coursesPagination').style.display = totalCoursesPages > 1 ? 'flex' : 'none';
                 
                 // Отображаем курсы текущей страницы
                 pageCourses.forEach(item => {
                     const formattedDate = formatDate(item.date);
-                    const shortDescription = item.description.length > 150 ? 
-                        item.description.substring(0, 150) + '...' : item.description;
+                    const shortDescription = item.description && item.description.length > 150 ? 
+                        item.description.substring(0, 150) + '...' : item.description || '';
                     
                     const courseItem = document.createElement('div');
                     courseItem.className = 'course-item';
@@ -1379,22 +1177,12 @@
                             <span><i class="far fa-calendar-alt"></i></span>
                         </div>
                         <div class="course-content">
-                            <h3>${item.title}</h3>
-                            <p>${shortDescription}</p>
+                            <h3>${escapeHtml(item.title || 'Без названия')}</h3>
+                            <p>${escapeHtml(shortDescription)}</p>
                             <div class="course-actions">
-                                <button class="read-more-btn" data-id="${item.id}">
+                                <button class="read-more-btn" data-id="${item.id || ''}">
                                     <i class="fas fa-eye"></i> Подробнее
                                 </button>
-                                ${isAdminAuthenticated ? `
-                                <div>
-                                    <button class="edit-course-btn" data-id="${item.id}">
-                                        <i class="fas fa-edit"></i> Редактировать
-                                    </button>
-                                    <button class="delete-course-btn" data-id="${item.id}">
-                                        <i class="fas fa-trash-alt"></i> Удалить
-                                    </button>
-                                </div>
-                                ` : ''}
                             </div>
                         </div>
                     `;
@@ -1408,200 +1196,57 @@
                         showFullCourse(id);
                     });
                 });
-                
-                if (isAdminAuthenticated) {
-                    document.querySelectorAll('.edit-course-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const id = this.getAttribute('data-id');
-                            currentAction = 'editCourse';
-                            currentItemId = id;
-                            authModal.style.display = 'flex';
-                        });
-                    });
-                    
-                    document.querySelectorAll('.delete-course-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            if (!isAdminAuthenticated) {
-                                currentAction = 'deleteCourse';
-                                authModal.style.display = 'flex';
-                                return;
-                            }
-                            
-                            const id = this.getAttribute('data-id');
-                            if (confirm('Вы уверены, что хотите удалить этот курс?')) {
-                                deleteCourse(id);
-                                loadCourses();
-                                alert("Курс удален!");
-                            }
-                        });
-                    });
-                }
             }
-            
-            // Обработка формы новости
-            newsForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const id = document.getElementById('newsId').value || Date.now().toString();
-                const title = document.getElementById('newsTitle').value.trim();
-                const date = document.getElementById('newsDate').value;
-                const content = document.getElementById('newsContent').value.trim();
-                
-                if (!title || !content) {
-                    alert("Заполните все поля!");
-                    return;
-                }
-                
-                saveNews(id, title, date, content);
-                closeNewsModal();
-                loadNews();
-                alert(document.getElementById('newsId').value ? "Новость обновлена!" : "Новость добавлена!");
-            });
-            
-            // Обработка формы курса
-            courseForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const id = document.getElementById('courseId').value || Date.now().toString();
-                const title = document.getElementById('courseTitle').value.trim();
-                const date = document.getElementById('courseDate').value;
-                const description = document.getElementById('courseDescription').value.trim();
-                
-                if (!title || !description) {
-                    alert("Заполните все поля!");
-                    return;
-                }
-                
-                saveCourse(id, title, date, description);
-                closeCourseModal();
-                loadCourses();
-                alert(document.getElementById('courseId').value ? "Курс обновлен!" : "Курс добавлен!");
-            });
             
             // Функции отображения модальных окон
-            function showNewsModal(mode, id = null) {
-                if (mode === 'add') {
-                    document.getElementById('newsModalTitle').textContent = 'Добавить новость';
-                    newsForm.reset();
-                    document.getElementById('newsId').value = '';
-                    document.getElementById('newsDate').value = today;
-                } else if (mode === 'edit') {
-                    const news = getNewsFromStorage();
-                    const newsItem = news.find(item => item.id === id);
-                    
-                    if (newsItem) {
-                        document.getElementById('newsModalTitle').textContent = 'Редактировать новость';
-                        document.getElementById('newsId').value = newsItem.id;
-                        document.getElementById('newsTitle').value = newsItem.title;
-                        document.getElementById('newsDate').value = newsItem.date;
-                        document.getElementById('newsContent').value = newsItem.content;
-                    }
-                }
-                
-                newsModal.style.display = 'flex';
-                document.getElementById('newsTitle').focus();
-            }
-            
-            function showCourseModal(mode, id = null) {
-                if (mode === 'add') {
-                    document.getElementById('courseModalTitle').textContent = 'Добавить курс';
-                    courseForm.reset();
-                    document.getElementById('courseId').value = '';
-                    document.getElementById('courseDate').value = today;
-                } else if (mode === 'edit') {
-                    const courses = getCoursesFromStorage();
-                    const courseItem = courses.find(item => item.id === id);
-                    
-                    if (courseItem) {
-                        document.getElementById('courseModalTitle').textContent = 'Редактировать курс';
-                        document.getElementById('courseId').value = courseItem.id;
-                        document.getElementById('courseTitle').value = courseItem.title;
-                        document.getElementById('courseDate').value = courseItem.date;
-                        document.getElementById('courseDescription').value = courseItem.description;
-                    }
-                }
-                
-                courseModal.style.display = 'flex';
-                document.getElementById('courseTitle').focus();
-            }
-            
             function showFullNews(id) {
-                const news = getNewsFromStorage();
-                const newsItem = news.find(item => item.id === id);
+                const newsItem = newsData.find(item => item.id === id);
                 
                 if (newsItem) {
-                    document.getElementById('fullNewsTitle').textContent = newsItem.title;
+                    document.getElementById('fullNewsTitle').textContent = newsItem.title || 'Без названия';
                     document.getElementById('fullNewsDate').textContent = `Дата публикации: ${formatDate(newsItem.date)}`;
-                    document.getElementById('fullNewsText').textContent = newsItem.content;
+                    document.getElementById('fullNewsText').textContent = newsItem.content || '';
                     fullNewsModal.style.display = 'flex';
+                } else {
+                    alert('Новость не найдена');
                 }
             }
             
             function showFullCourse(id) {
-                const courses = getCoursesFromStorage();
-                const courseItem = courses.find(item => item.id === id);
+                const courseItem = coursesData.find(item => item.id === id);
                 
                 if (courseItem) {
-                    document.getElementById('fullCourseTitle').textContent = courseItem.title;
+                    document.getElementById('fullCourseTitle').textContent = courseItem.title || 'Без названия';
                     document.getElementById('fullCourseDate').textContent = `Дата начала: ${formatDate(courseItem.date)}`;
-                    document.getElementById('fullCourseText').textContent = courseItem.description;
+                    document.getElementById('fullCourseText').textContent = courseItem.description || '';
                     fullCourseModal.style.display = 'flex';
-                }
-            }
-            
-            // Функции работы с данными
-            function saveNews(id, title, date, content) {
-                const news = getNewsFromStorage();
-                const existingIndex = news.findIndex(item => item.id === id);
-                
-                if (existingIndex !== -1) {
-                    news[existingIndex] = { id, title, date, content };
                 } else {
-                    news.push({ id, title, date, content });
+                    alert('Курс не найден');
                 }
-                
-                localStorage.setItem('lab_news', JSON.stringify(news));
             }
             
-            function saveCourse(id, title, date, description) {
-                const courses = getCoursesFromStorage();
-                const existingIndex = courses.findIndex(item => item.id === id);
-                
-                if (existingIndex !== -1) {
-                    courses[existingIndex] = { id, title, date, description };
-                } else {
-                    courses.push({ id, title, date, description });
-                }
-                
-                localStorage.setItem('lab_courses', JSON.stringify(courses));
-            }
-            
-            function deleteNews(id) {
-                let news = getNewsFromStorage();
-                news = news.filter(item => item.id !== id);
-                localStorage.setItem('lab_news', JSON.stringify(news));
-            }
-            
-            function deleteCourse(id) {
-                let courses = getCoursesFromStorage();
-                courses = courses.filter(item => item.id !== id);
-                localStorage.setItem('lab_courses', JSON.stringify(courses));
-            }
-            
-            function getNewsFromStorage() {
-                const newsJSON = localStorage.getItem('lab_news');
-                return newsJSON ? JSON.parse(newsJSON) : [];
-            }
-            
-            function getCoursesFromStorage() {
-                const coursesJSON = localStorage.getItem('lab_courses');
-                return coursesJSON ? JSON.parse(coursesJSON) : [];
-            }
-            
+            // Вспомогательные функции
             function formatDate(dateString) {
-                const date = new Date(dateString);
-                const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                return date.toLocaleDateString('ru-RU', options);
+                if (!dateString) return 'Дата не указана';
+                
+                try {
+                    const date = new Date(dateString);
+                    if (isNaN(date.getTime())) {
+                        return 'Неверная дата';
+                    }
+                    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                    return date.toLocaleDateString('ru-RU', options);
+                } catch (error) {
+                    console.error('Ошибка форматирования даты:', error);
+                    return 'Неверная дата';
+                }
+            }
+            
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
             }
             
             // Навигация по странице
@@ -1611,60 +1256,9 @@
                 });
             });
             
-            // Инициализация начальных данных (исправленные новости)
-            if (getNewsFromStorage().length === 0) {
-                const initialNews = [
-                    {
-                        id: '1',
-                        title: 'Создание лаборатории ИИ и ММ при БГПУ',
-                        date: '2026-01-15',
-                        content: 'Ректора БГПУ иниировал создание лаборатории искусственного интеллекта и математического моделирования. Определены основные направления научно-исследовательской деятельности и утвержден состав научного коллектива. Лаборатория станет центром компетенций в области современных информационных технологий и ИИ, анализа данных и интеллектуальных систем.'
-                    },
-                    {
-                        id: '2',
-                        title: 'Завершение разработки нормативной документации',
-                        date: '2026-01-29',
-                        content: 'Разработан полный пакет документов для функционирования лаборатории: положение о ЛИИММ, должностные инструкции сотрудников, кодекс этики в сфере искусственного интеллекта. Все документы направлены в научно-исследовательский отдел для согласования. Работа по проекту ведется в соответствии с утвержденным планом.'
-                    },
-                    {
-                        id: '3',
-                        title: 'Совещание по проекту лаборатории',
-                        date: '2026-01-30',
-                        content: '30.01.2026: состоялась рабочая встреча с проректором Габдрахмановой Ксенией Владиславовной. Присутствовали: представители учебной части, ответственный исполнитель по проекту. На встрече: детально обсуждены технические вопросы по генерации РПД и банка заданий для ФОС, границы проекта, согласованы основные технические и организационные параметры проекта, проработаны ключевые нюансы для формирования Технического задания (ТЗ). ВАЖНО: 1. Предоставление доступа к ИИ-моделям через API. Необходимо согласование с УФИЦ РАН по поводу суперкомпьютера, необходимо заключение соглашения по использованию технических возможностей УФИЦ РАН. Для полноценного использования ИИ-моделей через УФИЦ РАН необходима установка и настройка суперкомпьютера, это займет не менее 2-3 недель. Важно приступить в кратчайшие сроки. 2. Предоставить полную выгрузку списка литературы из библиотечной системы БГПУ (можно в Excel файле), необходимо для реализации проекта. Подготовка технической и проектной документации: на основании итогов встречи от 30.01.2026 ведется активная работа над Техническим заданием (ТЗ) выполнения проекта - Генерация РПД и задания для ФОС. Текущий статус ТЗ: готовность оценивается в 90%. Окончательная версия ТЗ будет представлена на рассмотрение ответственным лицам не позднее 9 февраля 2026 года. Планирование и информирование: составлен поэтапный план работы и бюджет по проекту лаборатории. Указанный план, вместе с пакетом разработанных документов (Положение, ДИ, Кодекс этики), направлен для ознакомления всем заинтересованным проректорам и в научно-исследовательский отдел БГПУ.'
-                    }
-                ];
-                
-                localStorage.setItem('lab_news', JSON.stringify(initialNews));
-            }
-            
-            if (getCoursesFromStorage().length === 0) {
-                const initialCourses = [
-                    {
-                        id: '1',
-                        title: 'Профессиональная презентация и доклад за 15 минут с ИИ',
-                        date: '2026-02-03',
-                        description: '4 часа, которые перевернут ваш подход к выступлениям. Вы узнаете и научитесь: Как с помощью ИИ превратить сырую идею в яркую структуру за 5 минут. Секреты визуального сторителлинга: создаём слайды, от которых невозможно отвести взгляд. Голос, жесты, внимание: усиливаем харизму даже в формате онлайн-доклада. Лайфхаки для работы с волнением и импровизации на сцене. Готовый алгоритм «от нуля до блестящего выступления» — быстрее, чем чашка кофе. Это не просто теория. На мастер-классе вы создадите свою презентацию с нуля под руководством эксперта и уйдёте с готовым к использованию материалом и персональным digital-помощником. Для кого это? — Руководители и предприниматели, которые ценят время. — Специалисты, выступающие перед клиентами или советом директоров. — Учёные и преподаватели, желающие говорить ярко и понятно. — Все, кто хочет перестать бояться камеры и аудитории. Время — ваш самый ценный ресурс. Потратьте 4 часа сегодня, чтобы в будущем экономить дни на подготовке и получать овации вместо нервного трепета. Записаться можно по форме обратной связи внизу сайта, или напишите нам по телеграм/макс/ватсап - телефоны ниже (лучше не звоните, пишите).'
-                    },
-                    {
-                        id: '2',
-                        title: 'Подготовка проекта за пару часов вместе с ИИ',
-                        date: '2026-02-03',
-                        description: 'Это не просто мастер-класс. Это — диалог с будущим. Представьте: вместо недель сомнений и поисков — четыре часа ясного, структурированного творчества. Где ваш интеллект встречается с искусственным, чтобы создать синергию невероятной силы. Что вас ждет: Алоха-момент: Вы и ИИ. Вы задаете вектор, а он мгновенно генерирует идеи, названия, структуры. Без страха, без цензуры, только поток. От хаоса к гармонии: Мы превратим россыпь мыслей в безупречный план: от концепции и целевой аудитории до первого шага реализации. Живой прототип: К финалу у вас в руках будет не просто идея, а готовый проектный документ — дорожная карта к воплощению. Магия тандема: Научитесь не «пользоваться инструментом», а сотрудничать с партнером, который усиливает вашу креативность в разы. За 4 часа вы: • Пройдете путь от Что, если?.. до Вот как это будет!. • Получите четкий алгоритм, который сможете применять к любым будущим замыслам. • Освободитесь от творческого блока и страха начала. • Увидите, как технологии становятся не угрозой, а вашим самым вдохновляющим соавтором. Для кого это: Для предпринимателей, креаторов, специалистов и всех, кто давно вынашивает идею — будь то стартап, курс, книга, событие или личный бренд. Записаться можно по форме обратной связи внизу сайта, или напишите нам по телеграм/макс/ватсап - телефоны ниже (лучше не звоните, пишите).'
-                    },
-                    {
-                        id: '3',
-                        title: 'Как разработать красивый и функциональный одностраничный сайт за 30 минут',
-                        date: '2026-02-03',
-                        description: 'Что вас ждёт: Инсайты и инструменты: Узнаем, как превратить идею в готовый дизайн за несколько шагов. Скорость и стиль: Освоим технологии, которые позволяют создавать элегантные страницы быстрее, чем заварить кофе. Глубокие знания за 4 часа: Не просто теория, а чёткий план действий, который вы сможете повторить снова и снова. Реальный пример: Этот промосайт был собран за 20 минут с помощью ИИ. И это только начало. Представьте: Утро — у вас есть идея. Через полчаса — у вас уже есть сайт, который цепляет взгляд и решает задачи. К вечеру — первые отклики, первые клиенты, первые результаты. Мы не просто учим делать сайты. Мы даём вам свободу творить, запускать и побеждать — быстро, красиво, эффективно. 4 часа, которые изменят ваше представление о создании сайтов. Забронируйте место — количество участников ограничено! Ваш будущий сайт уже ждёт. Позвольте себе создать его. Записаться можно по форме обратной связи внизу сайта, или напишите нам по телеграм/макс/ватсап - телефоны ниже (лучше не звоните, пишите).'
-                    }
-                ];
-                
-                localStorage.setItem('lab_courses', JSON.stringify(initialCourses));
-            }
-            
-            // Загружаем данные после инициализации
-            loadNews();
-            loadCourses();
+            // Сделаем функции глобальными для кнопок повтора
+            window.loadNews = loadNews;
+            window.loadCourses = loadCourses;
         });
     </script>
 </body>
