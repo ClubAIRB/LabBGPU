@@ -503,6 +503,35 @@
             margin: 0 auto;
         }
         
+        .contact-message {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .contact-message i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .contact-message p {
+            margin-bottom: 15px;
+        }
+        
+        .contact-email {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+        
         /* Footer */
         footer {
             background-color: var(--dark-color);
@@ -698,7 +727,7 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>Лаборатория искусственного интеллекта и математического моделирования (ЛИИММ) будет создана в марте 2026 году при БГПУ как центр компетенций в области современных информационных технологий и ИИ, анализа данных и интеллектуальных систем.</p>
-                    <p>Основные направления работы лаборатории включают разработку алгоритмов машинного обучения, создание математических моделей для анализа социально-экономических и образовательных процессов, исследование возможностей нейросетевых технологий в педагогике.</p>
+                    <p>Основные направления работы лаборатории включают разработку алгоритмов машинного обучения, создание математических моделей для анализa социально-экономических и образовательных процессов, исследование возможностей нейросетевых технологий в педагогике.</p>
                     <p>Лаборатория будет оснащена современным вычислительным оборудованием и программным обеспечением для проведения сложных научных экспериментов и реализации инновационных проектов.</p>
                     <a href="#contacts" class="btn">Связаться с нами</a>
                 </div>
@@ -827,20 +856,11 @@
         <section id="feedback">
             <h2 class="section-title">Обратная связь</h2>
             <div class="feedback-form">
-                <form id="feedbackForm">
-                    <div class="form-group">
-                        <label for="feedbackSubject">Тема сообщения</label>
-                        <input type="text" id="feedbackSubject" placeholder="Введите тему вашего сообщения" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="feedbackMessage">Текст сообщения</label>
-                        <textarea id="feedbackMessage" placeholder="Опишите ваш вопрос или предложение..." required rows="6"></textarea>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="button" class="btn" id="clearFeedbackBtn">Очистить</button>
-                        <button type="submit" class="btn btn-warning">Отправить сообщение</button>
-                    </div>
-                </form>
+                <div class="contact-message">
+                    <i class="fas fa-comments"></i>
+                    <p>Если вы хотите отправить сообщение, можете написать по электронной почте на <a href="mailto:abzalimovrr@mail.ru" class="contact-email">abzalimovrr@mail.ru</a> или по телеграм/макс.</p>
+                    <p>Мы всегда рады услышать ваши предложения, ответить на вопросы и обсудить возможности сотрудничества.</p>
+                </div>
             </div>
         </section>
     </main>
@@ -995,32 +1015,11 @@
                 <h3 class="modal-title">Заказ программного продукта или проекта</h3>
                 <button class="close-modal" id="closeOrderModal">&times;</button>
             </div>
-            <form id="orderForm">
-                <div class="form-group">
-                    <label for="orderSubject">Тема: что хотели заказать</label>
-                    <input type="text" id="orderSubject" placeholder="Например: Разработка системы анализа данных" required>
-                </div>
-                <div class="form-group">
-                    <label for="orderDescription">Описание: вкратце опишите ваш заказ</label>
-                    <textarea id="orderDescription" placeholder="Опишите задачу, требования, сроки..." required rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="orderName">ФИО: ваши данные</label>
-                    <input type="text" id="orderName" placeholder="Иванов Иван Иванович" required>
-                </div>
-                <div class="form-group">
-                    <label for="orderPhone">Телефон: ваш контакт</label>
-                    <input type="tel" id="orderPhone" placeholder="+7 (XXX) XXX-XX-XX" required>
-                </div>
-                <div class="form-group">
-                    <label for="orderEmail">E-mail: ваша почта</label>
-                    <input type="email" id="orderEmail" placeholder="example@mail.ru" required>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn" id="cancelOrderBtn">Отмена</button>
-                    <button type="submit" class="btn btn-warning">Отправить заказ</button>
-                </div>
-            </form>
+            <div class="contact-message" style="padding: 20px;">
+                <i class="fas fa-briefcase"></i>
+                <p>Если вы хотите сделать заказ программного продукта или проекта, напишите нам по электронной почте на <a href="mailto:abzalimovrr@mail.ru" class="contact-email">abzalimovrr@mail.ru</a> или по телеграм/макс.</p>
+                <p>Опишите ваши требования, сроки и бюджет, и мы свяжемся с вами для обсуждения деталей сотрудничества.</p>
+            </div>
         </div>
     </div>
 
@@ -1037,13 +1036,10 @@
             const orderModal = document.getElementById('orderModal');
             const newsForm = document.getElementById('newsForm');
             const courseForm = document.getElementById('courseForm');
-            const orderForm = document.getElementById('orderForm');
-            const feedbackForm = document.getElementById('feedbackForm');
             const addNewsBtn = document.getElementById('addNewsBtn');
             const addCourseBtn = document.getElementById('addCourseBtn');
             const orderLink = document.getElementById('orderLink');
             const orderLinkFooter = document.getElementById('orderLinkFooter');
-            const clearFeedbackBtn = document.getElementById('clearFeedbackBtn');
             
             // Пагинация новостей
             const newsPrevBtn = document.getElementById('newsPrevBtn');
@@ -1068,18 +1064,6 @@
             let currentNewsPage = 1;
             let currentCoursesPage = 1;
             const itemsPerPage = 3;
-            
-            // Конфигурация для отправки почты (SMTP.js)
-            const EMAIL_CONFIG = {
-                service: 'mail', // Используем Gmail
-                host: 'smtp.mail.ru',
-                port: 465,
-                secure: false,
-                auth: {
-                    user: 'abzalimovrr@mail.ru', // Заменить на реальный email
-                    pass: 'z9bUSrPg17YQ2jvyfvMV' // Заменить на реальный пароль
-                }
-            };
             
             // Загрузка данных
             loadNews();
@@ -1157,7 +1141,6 @@
             
             // Заказ
             document.getElementById('closeOrderModal').addEventListener('click', closeOrderModal);
-            document.getElementById('cancelOrderBtn').addEventListener('click', closeOrderModal);
             
             // Закрытие модальных окон при клике вне окна
             window.addEventListener('click', function(event) {
@@ -1168,118 +1151,6 @@
                 if (event.target === fullCourseModal) closeFullCourseModal();
                 if (event.target === orderModal) closeOrderModal();
             });
-            
-            // Обработка формы обратной связи
-            feedbackForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const subject = document.getElementById('feedbackSubject').value;
-                const message = document.getElementById('feedbackMessage').value;
-                
-                if (!subject || !message) {
-                    alert("Заполните все поля формы!");
-                    return;
-                }
-                
-                // Отправляем письмо через SMTP.js
-                sendEmail('Обратная связь: ' + subject, message, 'feedback');
-                
-                // Показываем сообщение об отправке
-                alert("Информация отправлена");
-                
-                // Очищаем форму
-                feedbackForm.reset();
-            });
-            
-            // Очистка формы обратной связи
-            clearFeedbackBtn.addEventListener('click', function() {
-                feedbackForm.reset();
-            });
-            
-            // Обработка формы заказа
-            orderForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const subject = document.getElementById('orderSubject').value;
-                const description = document.getElementById('orderDescription').value;
-                const name = document.getElementById('orderName').value;
-                const phone = document.getElementById('orderPhone').value;
-                const email = document.getElementById('orderEmail').value;
-                
-                if (!subject || !description || !name || !phone || !email) {
-                    alert("Заполните все поля формы!");
-                    return;
-                }
-                
-                // Формируем тело письма для заказа
-                const body = `
-Тема заказа: ${subject}
-
-Описание заказа:
-${description}
-
-Контактная информация:
-ФИО: ${name}
-Телефон: ${phone}
-Email: ${email}
-
-Дата отправки: ${new Date().toLocaleString('ru-RU')}
-                `;
-                
-                // Отправляем письмо через SMTP.js
-                sendEmail('Заказ: ' + subject, body, 'order');
-                
-                // Показываем сообщение об отправке
-                alert("Заказ отправлен! Мы свяжемся с вами в ближайшее время.");
-                
-                // Очищаем форму
-                orderForm.reset();
-                closeOrderModal();
-            });
-            
-            // Функция отправки email через SMTP.js
-            function sendEmail(subject, body, type) {
-                // В реальном приложении здесь нужно использовать реальные SMTP данные
-                // Для демонстрации используем сервис smtpjs.com
-                
-                // Создаем текстовое письмо для отображения пользователю
-                const emailText = `Тема: ${subject}\n\nСообщение:\n${body}\n\nЭто письмо было отправлено с сайта ЛИИММ БГПУ.`;
-                
-                // В реальном приложении раскомментировать этот код и добавить реальные SMTP данные:
-                Email.send({
-                    Host: "smtp.mail.ru",
-                    Username: "abzalimovrr",
-                    Password: "z9bUSrPg17YQ2jvyfvMV",
-                    To: 'abzalimovrr@mail.ru',
-                    From: "abzalimovrr@mail.ru",
-                    Subject: subject,
-                    Body: emailText
-                }).then(
-                    message => {
-                        console.log("Письмо отправлено успешно");
-                        alert(type === 'feedback' ? "Сообщение отправлено!" : "Заказ отправлен!");
-                    }
-                ).catch(
-                    error => {
-                        console.error("Ошибка отправки:", error);
-                        alert("Произошла ошибка при отправке. Пожалуйста, попробуйте позже или свяжитесь с нами по телефону.");
-                    }
-                );
-                
-                
-                // Для демонстрации просто показываем содержимое письма
-                console.log("Отправка письма:");
-                console.log("Кому: abzalimovrr@mail.ru");
-                console.log("Тема:", subject);
-                console.log("Текст:", body);
-                
-                // Альтернативный вариант: показываем пользователю текст письма для ручной отправки
-                if (type === 'feedback') {
-                    alert("Сообщение подготовлено для отправки. В реальной версии сайта оно будет отправлено автоматически на abzalimovrr@mail.ru");
-                } else {
-                    alert("Заказ подготовлен для отправки. В реальной версии сайта он будет отправлен автоматически на abzalimovrr@mail.ru");
-                }
-            }
             
             // Добавление новости
             addNewsBtn.addEventListener('click', function() {
