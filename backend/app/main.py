@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import auth, organizations, heads
+from app.api import auth, organizations, heads, admin, content, testing
 
 app = FastAPI(
     title="ИИ-Эксперт: Диагностика руководителей",
@@ -22,6 +22,9 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api/v1")
 app.include_router(organizations.router, prefix="/api/v1")
 app.include_router(heads.router, prefix="/api/v1")
+app.include_router(admin.router, prefix="/api/v1")
+app.include_router(content.router, prefix="/api/v1")
+app.include_router(testing.router, prefix="/api/v1")
 
 
 @app.get("/")
